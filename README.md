@@ -11,6 +11,14 @@ $ docker-compose up
 $ docker comose up
 ```
 
+Caso apresente uma falha ao rodar o `docker compose` pode ser que esteja faltando o volume da aplicação, para ajusta podemos fazer o seguinte:
+
+```bash
+$ docker volume create postgres_mente_sa
+```
+
+E depois rodar o `up` novamente.
+
 Esse comando já ira configurar o ambiente de desenvolvimento
 
 ## Backend
