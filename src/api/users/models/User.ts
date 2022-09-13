@@ -6,6 +6,7 @@ import {
 import { Contact } from './Contact';
 import { Gender, UserRole } from './enums';
 import { hashPassword, verifyPassword } from '../../../utils/authentication/passwordHasher';
+import { History } from "../../history/models";
 
 @Entity()
 export class User extends BaseEntity {
@@ -51,7 +52,10 @@ export class User extends BaseEntity {
     gender!: Gender;
 
     @OneToMany(() => Contact, (contact) => contact.user)
-    contacts!: Contact[]
+    contacts!: Contact[];
+
+    @OneToMany(() => History, (history) => history.user)
+    history!: History[];
 
     @CreateDateColumn()
     createdAt!: Date;

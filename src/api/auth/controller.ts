@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import { User } from '../users/models';
-import { UserService } from '../users/services'
-import { createToken } from '../../../utils/authentication/tokenGenerator';
+import { UserService } from '../users/services/v1';
+import { createToken } from '../../utils/authentication/tokenGenerator';
 
 export class AuthController {
 
