@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import { SessionService } from './services'
+import { SessionService } from './services/v1';
 import { User, UserRole } from '../users/models';
 import { Session } from './models';
 

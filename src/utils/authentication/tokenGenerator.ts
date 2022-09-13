@@ -1,5 +1,6 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { User } from '../../api/users/models';
+import { IUserAuthentication } from '../../@types/user';
 
 export const createToken = (user: User): string => {
     const payloadData = {
@@ -11,7 +12,7 @@ export const createToken = (user: User): string => {
     return token;
 }
 
-export const verifyToken = (token: string): User|null => {
+export const verifyToken = (token: string): IUserAuthentication|null => {
     let payload;
     try {
         payload = jwt.verify(token, 'secrep') as any;
@@ -20,10 +21,10 @@ export const verifyToken = (token: string): User|null => {
         console.error('Failed to verify token');
         return null;
     }
-    const user = {
+    const user: IUserAuthentication = {
         email: payload.email,
         id: payload.id,
     };
 
-    return user as User;
+    return user;
 }

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { verifyToken } from '../authentication/tokenGenerator';
-import { UserService } from '../../api/users/services';
+import { UserService } from '../../api/users/services/v1';
 
 export const authenticate = async (request: Request, response: Response, next: NextFunction) => {
     const { authorization } = request.headers;

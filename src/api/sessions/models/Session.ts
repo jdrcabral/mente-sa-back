@@ -4,6 +4,7 @@ import {
 } from "typeorm";
 
 import { User } from "../../users/models";
+import { Resource } from "../../resources/models";
 import { SessionStatus, SessionType } from './enums';
 
 @Entity()
@@ -12,7 +13,7 @@ export class Session extends BaseEntity {
     id!: string;
 
     @ManyToOne(() => User)
-    professional!: string;
+    professional!: User;
 
     @ManyToMany(() => User)
     @JoinTable()
@@ -40,6 +41,9 @@ export class Session extends BaseEntity {
         default: SessionType.INDIVIDUAL,
     })
     type!: SessionType;
+
+    @ManyToOne(() => Resource, (resourse) => resourse.sessions)
+    resource!: Resource;
 
     @CreateDateColumn()
     createAt!: Date;

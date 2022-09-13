@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import { UserService } from './services';
+import { UserService } from './services/v1/user';
 import { User } from './models';
 
 export class UserController {
@@ -18,7 +18,6 @@ export class UserController {
 
     static partialUpdate(request: Request, response: Response) {
         response.status(200).send({ update: 'Ok' });
-        
     }
 
     static delete(request: Request, response: Response) {
