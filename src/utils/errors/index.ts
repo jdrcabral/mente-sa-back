@@ -1,0 +1,1 @@
+export { NotFoundError } from './not_found';
