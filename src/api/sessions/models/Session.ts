@@ -3,7 +3,8 @@ import {
     ManyToOne, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn
 } from "typeorm";
 
-import { User } from "../../users/models";
+import { Patient } from "../../patient/models";
+import { Professional } from "../../professional/models";
 import { Resource } from "../../resources/models";
 import { SessionStatus, SessionType } from './enums';
 
@@ -12,12 +13,12 @@ export class Session extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @ManyToOne(() => User)
-    professional!: User;
+    @ManyToOne(() => Professional)
+    professional!: Professional;
 
-    @ManyToMany(() => User)
+    @ManyToMany(() => Patient)
     @JoinTable()
-    patient!: User;
+    patient!: Patient;
 
     @Column("timestamptz")
     scheduledDate!: Date;

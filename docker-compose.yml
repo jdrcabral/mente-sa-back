@@ -4,6 +4,7 @@ services:
   postgres:
     image: postgres:latest
     restart: always
+    user: postgres
     environment:
       - POSTGRES_DB=mente_sa
       - POSTGRES_USER=postgres

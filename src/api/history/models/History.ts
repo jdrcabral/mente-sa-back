@@ -4,7 +4,7 @@ import {
 } from "typeorm";
 
 import { Session } from "../../sessions/models";
-import { User } from "../../users/models";
+import { Patient } from "../../patient/models";
 
 @Entity()
 export class History extends BaseEntity {
@@ -14,8 +14,8 @@ export class History extends BaseEntity {
     @Column("varchar")
     title!: string;
 
-    @ManyToOne(() => User, (user) => user.history)
-    user!: User;
+    @ManyToOne(() => Patient, (patient) => patient.history)
+    patient!: Patient;
 
     @ManyToOne(() => Session)
     session!: Session;

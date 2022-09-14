@@ -11,6 +11,8 @@ export const typeormLoader = async () => {
         database: 'mente_sa',   
         entities: [
             path.resolve(__dirname, '..', 'api', 'users', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'patient', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'professional', 'models', '*.ts'),
             path.resolve(__dirname, '..', 'api', 'sessions', 'models', '*.ts'),
             path.resolve(__dirname, '..', 'api', 'resources', 'models', '*.ts'),
             path.resolve(__dirname, '..', 'api', 'history', 'models', '*.ts'),
