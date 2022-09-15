@@ -3,13 +3,12 @@ import {
     OneToMany, CreateDateColumn, UpdateDateColumn
 } from "typeorm";
 
-import { Contact } from './Contact';
 import { Gender, UserRole } from './enums';
 import { hashPassword, verifyPassword } from '../../../utils/authentication/passwordHasher';
 import { History } from "../../history/models";
 
 @Entity()
-export class User extends BaseEntity {
+export class Patient extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
@@ -25,12 +24,6 @@ export class User extends BaseEntity {
     @Column("date")
     birthDate!: Date;
 
-    @Column({
-        type: "varchar",
-        nullable: true,
-    })
-    professionalIdentification!: string;
-
     @Column("varchar")
     password!: string;
 
@@ -39,23 +32,13 @@ export class User extends BaseEntity {
 
     @Column({
         type: "enum",
-        enum: UserRole,
-        default: UserRole.PATIENT,
-    })
-    role!: UserRole;
-
-    @Column({
-        type: "enum",
         enum: Gender,
         default: Gender.OTHER,
     })
     gender!: Gender;
 
-    @OneToMany(() => Contact, (contact) => contact.user)
-    contacts!: Contact[];
-
-    // @OneToMany(() => History, (history) => history.user)
-    // history!: History[];
+    @OneToMany(() => History, (history) => history.patient)
+    history!: History[];
 
     @CreateDateColumn()
     createdAt!: Date;
