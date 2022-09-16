@@ -1,11 +1,12 @@
 import { 
     Entity, PrimaryGeneratedColumn, BaseEntity, Column,
-    OneToMany, CreateDateColumn, UpdateDateColumn
+    OneToMany, CreateDateColumn, UpdateDateColumn, ManyToOne
 } from "typeorm";
 
 import { Gender, UserRole } from './enums';
 import { hashPassword, verifyPassword } from '../../../utils/authentication/passwordHasher';
 import { History } from "../../history/models";
+import { Professional } from "../../professional/models";
 
 @Entity()
 export class Patient extends BaseEntity {
@@ -36,6 +37,9 @@ export class Patient extends BaseEntity {
         default: Gender.OTHER,
     })
     gender!: Gender;
+    
+    @ManyToOne(() => Professional)
+    professional!: Professional;
 
     @OneToMany(() => History, (history) => history.patient)
     history!: History[];

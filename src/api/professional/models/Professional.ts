@@ -5,6 +5,7 @@ import {
 
 import { Gender } from './enums';
 import { hashPassword, verifyPassword } from '../../../utils/authentication/passwordHasher';
+import { Patient } from "../../patient/models";
 
 @Entity()
 export class Professional extends BaseEntity {
@@ -38,6 +39,9 @@ export class Professional extends BaseEntity {
         default: Gender.OTHER,
     })
     gender!: Gender;
+
+    @OneToMany(() => Patient, (patient) => patient.professional)
+    history!: History[];
 
     @CreateDateColumn()
     createdAt!: Date;
