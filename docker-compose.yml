@@ -35,6 +35,7 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
+      - /app/node_modules
 
 volumes:
   postgres_mente_sa:
