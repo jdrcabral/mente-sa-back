@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: "a9f71105-4723-4a7a-8028-def62ea09754"
+          heroku_app_name: "ga-mente-sa" #Must be unique in Heroku
+          heroku_email: "joao.denisr@gmail.com"
+          branch: "main"
+          healthcheck: "https://ga-mente-sa.herokuapp.com/health"

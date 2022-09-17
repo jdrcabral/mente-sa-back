@@ -1,8 +1,11 @@
+import * as PostgressConnectionStringParser from "pg-connection-string";
 import { DataSource } from 'typeorm';
 import path from 'path';
 
 export const typeormLoader = async () => {
-    const appDataSource = new DataSource({
+    const databaseUrl = process.env.DATABASE_URL;
+
+    let databaseConfig: any = {
         type: 'postgres',
         host: 'postgres',
         port: 5432,
@@ -19,7 +22,16 @@ export const typeormLoader = async () => {
         ],
         synchronize: true,
         logging: false,
-    });
+    }
+
+    if (databaseUrl) {
+        const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
+
+        databaseConfig = { ...databaseConfig, ...connectionOptions }
+        databaseConfig.extra = { ssl: true };
+    }
+
+    const appDataSource = new DataSource(databaseConfig);
 
     await appDataSource.initialize();
 }

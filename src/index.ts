@@ -3,7 +3,7 @@ import app from './server';
 import { typeormLoader } from './loaders/typeorm';
 import swaggerLoader from './loaders/swagger';
 
-const PORT = 3333;
+const PORT = process.env.PORT || 3333;
 
 const configureApp = () => {
 
