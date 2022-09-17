@@ -29,6 +29,7 @@ export const typeormLoader = async () => {
 
         databaseConfig = { ...databaseConfig, ...connectionOptions }
         databaseConfig.extra = { ssl: true };
+        databaseConfig.ssl = true;
     }
 
     const appDataSource = new DataSource(databaseConfig);
