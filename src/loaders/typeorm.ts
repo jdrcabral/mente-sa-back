@@ -4,7 +4,6 @@ import path from 'path';
 
 export const typeormLoader = async () => {
     let databaseUrl = process.env.DATABASE_URL;
-    databaseUrl = 'postgres://uuiqdzrgasmqea:eef32a40b68ac82bf855d74344042843726c6e69e33cf68f3497565737017f84@ec2-3-225-213-67.compute-1.amazonaws.com:5432/dbdthohqdt8jiq';
     let databaseConfig: any = {
         type: 'postgres',
         host: 'postgres',
@@ -29,7 +28,11 @@ export const typeormLoader = async () => {
 
         console.log(connectionOptions);
         databaseConfig = { ...databaseConfig, ...connectionOptions }
-        databaseConfig.extra = { ssl: true};
+        databaseConfig.extra = {
+            ssl: {
+                rejectUnauthorized: false
+            }
+        };
         databaseConfig.ssl = true;
     }
     console.log(databaseConfig);
