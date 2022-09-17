@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 import path from 'path';
 
 export const typeormLoader = async () => {
-    const databaseUrl = process.env.DATABASE_URL;
-
+    let databaseUrl = process.env.DATABASE_URL;
+    databaseUrl = 'postgres://uuiqdzrgasmqea:eef32a40b68ac82bf855d74344042843726c6e69e33cf68f3497565737017f84@ec2-3-225-213-67.compute-1.amazonaws.com:5432/dbdthohqdt8jiq';
     let databaseConfig: any = {
         type: 'postgres',
         host: 'postgres',
@@ -24,17 +24,39 @@ export const typeormLoader = async () => {
         logging: false,
     }
 
-    if (databaseUrl) {
-        const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
-
-        databaseConfig = { ...databaseConfig, ...connectionOptions }
-        databaseConfig.extra = { ssl: {
+    databaseConfig = {
+        type: 'postgres',
+        host: 'ec2-3-225-213-67.compute-1.amazonaws.com',
+        port: 5432,
+        username: 'uuiqdzrgasmqea',
+        password: 'eef32a40b68ac82bf855d74344042843726c6e69e33cf68f3497565737017f84',
+        database: 'dbdthohqdt8jiq',   
+        entities: [
+            path.resolve(__dirname, '..', 'api', 'users', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'patient', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'professional', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'sessions', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'resources', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'history', 'models', '*.ts'),
+        ],
+        synchronize: true,
+        logging: false,
+        extra: {
+            ssl: {
                 rejectUnauthorized: false,
-            }
-        };
-        databaseConfig.ssl = true;
+            },
+        },
+        ssl: true,
     }
+    // if (databaseUrl) {
+    //     const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
 
+    //     console.log(connectionOptions);
+    //     databaseConfig = { ...databaseConfig, ...connectionOptions }
+    //     databaseConfig.extra = { ssl: true};
+    //     databaseConfig.ssl = true;
+    // }
+    console.log(databaseConfig);
     const appDataSource = new DataSource(databaseConfig);
 
     await appDataSource.initialize();
