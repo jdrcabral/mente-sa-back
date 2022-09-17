@@ -1,9 +1,9 @@
 import { 
     Entity, PrimaryGeneratedColumn, BaseEntity, Column,
-    OneToMany, CreateDateColumn, UpdateDateColumn, ManyToOne
+    OneToMany, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn
 } from "typeorm";
 
-import { Gender, UserRole } from './enums';
+import { Gender } from './enums';
 import { hashPassword, verifyPassword } from '../../../utils/authentication/passwordHasher';
 import { History } from "../../history/models";
 import { Professional } from "../../professional/models";
@@ -30,6 +30,9 @@ export class Patient extends BaseEntity {
 
     @Column("bool")
     isActive!: boolean
+    
+    @Column("uuid")
+    professionalId!: string;
 
     @Column({
         type: "enum",
@@ -38,7 +41,8 @@ export class Patient extends BaseEntity {
     })
     gender!: Gender;
     
-    @ManyToOne(() => Professional)
+    @ManyToOne(() => Professional, (professional) => professional.patients)
+    @JoinColumn({ name: 'professionalId'})
     professional!: Professional;
 
     @OneToMany(() => History, (history) => history.patient)
