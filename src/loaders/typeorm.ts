@@ -28,7 +28,10 @@ export const typeormLoader = async () => {
         const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
 
         databaseConfig = { ...databaseConfig, ...connectionOptions }
-        databaseConfig.extra = { ssl: true };
+        databaseConfig.extra = { ssl: {
+                rejectUnauthorized: false,
+            }
+        };
         databaseConfig.ssl = true;
     }
 
