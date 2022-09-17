@@ -24,38 +24,14 @@ export const typeormLoader = async () => {
         logging: false,
     }
 
-    databaseConfig = {
-        type: 'postgres',
-        host: 'ec2-3-225-213-67.compute-1.amazonaws.com',
-        port: 5432,
-        username: 'uuiqdzrgasmqea',
-        password: 'eef32a40b68ac82bf855d74344042843726c6e69e33cf68f3497565737017f84',
-        database: 'dbdthohqdt8jiq',   
-        entities: [
-            path.resolve(__dirname, '..', 'api', 'users', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'patient', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'professional', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'sessions', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'resources', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'history', 'models', '*.ts'),
-        ],
-        synchronize: true,
-        logging: false,
-        extra: {
-            ssl: {
-                rejectUnauthorized: false,
-            },
-        },
-        ssl: true,
-    }
-    // if (databaseUrl) {
-    //     const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
+    if (databaseUrl) {
+        const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
 
-    //     console.log(connectionOptions);
-    //     databaseConfig = { ...databaseConfig, ...connectionOptions }
-    //     databaseConfig.extra = { ssl: true};
-    //     databaseConfig.ssl = true;
-    // }
+        console.log(connectionOptions);
+        databaseConfig = { ...databaseConfig, ...connectionOptions }
+        databaseConfig.extra = { ssl: true};
+        databaseConfig.ssl = true;
+    }
     console.log(databaseConfig);
     const appDataSource = new DataSource(databaseConfig);
 
