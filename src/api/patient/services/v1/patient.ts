@@ -12,8 +12,8 @@ export class PatientService {
         return patient;
     }
 
-    public static async list(): Promise<Patient[]> {
-        const patients: Patient[] = await Patient.find();
+    public static async list(query: any): Promise<Patient[]> {
+        const patients: Patient[] = await Patient.findBy(query);
 
         return patients.map((patient) => {
             const {password, ...patientData} = patient;
@@ -35,14 +35,17 @@ export class PatientService {
 
     public static async update(id: string, update_data: object) {
 
-        const professional = await this.findById(id);
+        const patient = await this.findById(id);
         
-        if (!professional) {
+        if (!patient) {
             throw new NotFoundError('Patient not found!');
         }
         
         const updated = await Patient.update({ id }, update_data);
-        return updated;
+        
+        await patient.reload()
+        
+        return patient;
     }
 
     public static async destroy(id: string) {

@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import { PatientService } from './services/v1/patient';
 import { Patient } from './models';
 import { NotFoundError } from '../../utils/errors';
@@ -11,24 +11,28 @@ export class PatientController {
         response.status(201).send(user);
     }
 
-    static async list(request: Request, response: Response) {
-        const users = await PatientService.list();
-
-        response.status(200).send(users);
+    static async list(request: Request, response: Response, next: NextFunction) {
+        const query = request.query;
+        try{
+            const users = await PatientService.list(query);
+            response.status(200).send(users);
+        } catch(error) {
+            next(error);
+        }
     }
 
-    static partialUpdate(request: Request, response: Response) {
-        response.status(200).send({ update: 'Ok' });
+    static async partialUpdate(request: Request, response: Response) {
+        const { patientId } = request.params;
+        const patient = await PatientService.update(patientId, request.body);
+        response.status(200).send(patient);
     }
 
-    static async delete(request: Request, response: Response) {
+    static async delete(request: Request, response: Response, next: NextFunction) {
         const { professionalId } = request.params;
         try {
             await PatientService.destroy(professionalId);
         } catch (error) {
-            if (error instanceof NotFoundError) {
-                return response.status(404).send({ code: error.code, message: error.message });
-            }
+            next(error);
         }
         response.status(204).send({ deleted: 'Ok' });
     }

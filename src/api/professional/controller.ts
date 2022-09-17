@@ -1,7 +1,6 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import { ProfessionalService } from './services/v1/professional';
 import { Professional } from './models';
-import { NotFoundError } from '../../utils/errors';
 
 export class ProfessionalController {
 
@@ -11,25 +10,28 @@ export class ProfessionalController {
         response.status(201).send(user);
     }
 
-    static async list(request: Request, response: Response) {
-        const users = await ProfessionalService.list();
-
-        response.status(200).send(users);
+    static async list(request: Request, response: Response, next: NextFunction) {
+        const query = request.query;
+        try{
+            const users = await ProfessionalService.list(query);
+            response.status(200).send(users);
+        } catch(error) {
+            next(error);
+        }
     }
 
-    static partialUpdate(request: Request, response: Response) {
-        response.status(200).send({ update: 'Ok' });
+    static async partialUpdate(request: Request, response: Response) {
+        const { professionalId } = request.params;
+        const professional = await ProfessionalService.update(professionalId, request.body);
+        response.status(200).send(professional);
     }
 
-    static async delete(request: Request, response: Response) {
-        console.log(request.params);
+    static async delete(request: Request, response: Response, next: NextFunction) {
         const { professionalId } = request.params;
         try {
             await ProfessionalService.destroy(professionalId);
         } catch (error) {
-            if (error instanceof NotFoundError) {
-                return response.status(404).send({ code: error.code, message: error.message });
-            }
+            return next(error);
         }
         response.status(204).send({ deleted: 'Ok' });
     }

@@ -12,8 +12,9 @@ export class ProfessionalService {
         return professional;
     }
 
-    public static async list(): Promise<Professional[]> {
-        const professionals: Professional[] = await Professional.find();
+    public static async list(query: any): Promise<Professional[]> {
+        
+        const professionals: Professional[] = await Professional.findBy(query);
 
         return professionals.map((professional) => {
             const {password, ...professionalData} = professional;
@@ -41,8 +42,10 @@ export class ProfessionalService {
             throw new NotFoundError('Professional not found!');
         }
         
-        const updated = await Professional.update({ id }, update_data);
-        return updated;
+        const updated = await Professional.update(id, update_data);
+
+        await professional.reload()
+        return professional;
     }
 
     public static async destroy(id: string) {
