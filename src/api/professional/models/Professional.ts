@@ -41,7 +41,7 @@ export class Professional extends BaseEntity {
     gender!: Gender;
 
     @OneToMany(() => Patient, (patient) => patient.professional)
-    history!: History[];
+    patients!: Patient[];
 
     @CreateDateColumn()
     createdAt!: Date;

@@ -5,8 +5,8 @@ import { AuthController} from './controller';
 const router = Router();
 
 const authRoutes = () => {
-    router.post('login', AuthController.login);
-    router.post('signout', AuthController.logout);
+    // router.post('login', AuthController.login);
+    // router.post('signout', AuthController.logout);
 
     return router;
 }

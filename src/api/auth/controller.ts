@@ -1,25 +1,33 @@
 import {Request, Response} from 'express';
-import { User } from '../users/models';
-import { UserService } from '../users/services/v1';
 import { createToken } from '../../utils/authentication/tokenGenerator';
+import { Patient } from '../patient/models';
+import { Professional } from '../professional/models';
+import { PatientService } from '../patient/services/v1';
+import { ProfessionalService } from '../professional/services/v1';
 
 export class AuthController {
 
-    static async login(request: Request, response: Response) {
+    static async professionalLogin(request: Request, response: Response) {
         const { email, password } = request.body;
-        const user: User|null = await UserService.findOneByEmail(email);
+        const professional: Professional|null = await ProfessionalService.findOneByEmail(email);
 
-        if ( user === null || !user.matchUserPassword(password)) {
+        if ( professional === null || !professional.matchUserPassword(password)) {
             return response.status(403).send({ error: 'Failed to authenticate' });
         }
 
-        const token = createToken(user);
+        const token = createToken(professional);
         response.status(200).send({ token });
     }
+    
+    static async patientLogin(request: Request, response: Response) {
+        const { email, password } = request.body;
+        const patient: Patient|null = await PatientService.findOneByEmail(email);
 
-    static async logout(request: Request, response: Response) {
-        const users = await UserService.list();
+        if ( patient === null || !patient.matchUserPassword(password)) {
+            return response.status(403).send({ error: 'Failed to authenticate' });
+        }
 
-        response.status(200).send(users);
+        const token = createToken(patient);
+        response.status(200).send({ token });
     }
 }
