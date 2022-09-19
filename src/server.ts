@@ -9,8 +9,6 @@ const app = express();
 
 app.use(express.json());
 
-app.use(express.json());
-
 ApiV1Router(app);
 app.use(errorHandler);
 

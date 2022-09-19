@@ -10,8 +10,16 @@ const swaggerLoader = (app: Express) => {
             title: 'Mente Sa',
             version: '0.0.1',
         },
-        host: `localhost:3333`, // Host (optional)
-        basePath: '/', // Base path (optional)
+        servers: [
+            {
+                url: 'http://localhost:3333',
+                description: 'Development Server',
+            },
+            {
+                url: 'https://ga-mente-sa.herokuapp.com',
+                description: 'Staging',
+            },
+        ]
         },
         apis: [`${__dirname}/../api/**/route*.ts`], // files containing annotations as above
     };
