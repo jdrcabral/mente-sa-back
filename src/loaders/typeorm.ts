@@ -12,21 +12,19 @@ export const typeormLoader = async () => {
         password: 'mypassword',
         database: 'mente_sa',   
         entities: [
-            path.resolve(__dirname, '..', 'api', 'users', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'patient', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'professional', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'sessions', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'resources', 'models', '*.ts'),
-            path.resolve(__dirname, '..', 'api', 'history', 'models', '*.ts'),
+            path.resolve(__dirname, '..', 'api', 'users', 'models', '*.{js,ts}'),
+            path.resolve(__dirname, '..', 'api', 'patient', 'models', '*.{js,ts}'),
+            path.resolve(__dirname, '..', 'api', 'professional', 'models', '*.{js,ts}'),
+            path.resolve(__dirname, '..', 'api', 'sessions', 'models', '*.{js,ts}'),
+            path.resolve(__dirname, '..', 'api', 'resources', 'models', '*.{js,ts}'),
+            path.resolve(__dirname, '..', 'api', 'history', 'models', '*.{js,ts}'),
         ],
         synchronize: true,
         logging: false,
     }
-    console.log(databaseUrl);
     if (databaseUrl) {
         const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
 
-        console.log(connectionOptions);
         // databaseConfig = { ...databaseConfig, ...connectionOptions }
         // databaseConfig.extra = {
         //     ssl: {
@@ -43,12 +41,12 @@ export const typeormLoader = async () => {
             password: 'eef32a40b68ac82bf855d74344042843726c6e69e33cf68f3497565737017f84',
             database: 'dbdthohqdt8jiq',   
             entities: [
-                path.resolve(__dirname, '..', 'api', 'users', 'models', '*.ts'),
-                path.resolve(__dirname, '..', 'api', 'patient', 'models', '*.ts'),
-                path.resolve(__dirname, '..', 'api', 'professional', 'models', '*.ts'),
-                path.resolve(__dirname, '..', 'api', 'sessions', 'models', '*.ts'),
-                path.resolve(__dirname, '..', 'api', 'resources', 'models', '*.ts'),
-                path.resolve(__dirname, '..', 'api', 'history', 'models', '*.ts'),
+                path.join(__dirname, '..', 'api', 'users', 'models', '*.{js,ts}'),
+                path.join(__dirname, '..', 'api', 'patient', 'models', '*.{js,ts}'),
+                path.join(__dirname, '..', 'api', 'professional', 'models', '*.{js,ts}'),
+                path.join(__dirname, '..', 'api', 'sessions', 'models', '*.{js,ts}'),
+                path.join(__dirname, '..', 'api', 'resources', 'models', '*.{js,ts}'),
+                path.join(__dirname, '..', 'api', 'history', 'models', '*.{js,ts}'),
             ],
             synchronize: true,
             logging: false,
@@ -60,7 +58,6 @@ export const typeormLoader = async () => {
             ssl: true,
         }
     }
-    console.log(databaseConfig);
     const appDataSource = new DataSource(databaseConfig);
 
     await appDataSource.initialize();

@@ -21,7 +21,7 @@ const swaggerLoader = (app: Express) => {
             },
         ]
         },
-        apis: [`${__dirname}/../api/**/route*.ts`], // files containing annotations as above
+        apis: [`${__dirname}/../api/**/route*.{js,ts}`], // files containing annotations as above
     };
     const swaggerSpec = swaggerJSDoc(options);
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

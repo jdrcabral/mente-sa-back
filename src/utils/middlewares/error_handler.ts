@@ -7,5 +7,6 @@ export const errorHandler = (error: any, req: Request, res: Response, next: Next
         return res.status(404).send({ code: error.code, message: error.message });
     }
 
+    console.log(error);
     return res.status(500).send(error);
 }
