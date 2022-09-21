@@ -1,0 +1,1 @@
+export { IResource, ResourceService } from './resource'
