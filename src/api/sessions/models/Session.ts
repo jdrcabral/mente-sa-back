@@ -43,7 +43,7 @@ export class Session extends BaseEntity {
     })
     type!: SessionType;
 
-    @ManyToOne(() => Resource, (resourse) => resourse.sessions)
+    @ManyToOne(() => Resource, (resource) => resource.sessions)
     resource!: Resource;
 
     @CreateDateColumn()

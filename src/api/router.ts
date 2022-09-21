@@ -6,6 +6,7 @@ import AuthenticationRouter from './auth/router'
 
 // import { AuthController } from './auth/controller';
 import SessionRouter from './sessions/router';
+import resourcesRoutes from './resources/router';
 
 const configureRoutes =  (app: Express) => {
 
@@ -14,6 +15,7 @@ const configureRoutes =  (app: Express) => {
     app.use('/api/v1/sessions/', SessionRouter());
     app.use('/api/v1/patient', PatientRouter());
     app.use('/api/v1/professional', ProfessionalRouter());
+    app.use('/api/v1/resource', resourcesRoutes());
 }
 
 export default configureRoutes;
