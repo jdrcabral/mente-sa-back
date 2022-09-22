@@ -49,13 +49,13 @@ export class PatientService {
     }
 
     public static async destroy(id: string) {
-        const professional = await this.findById(id);
+        const patient = await this.findById(id);
 
-        if (!professional) {
+        if (!patient) {
             throw new NotFoundError('Professional not found!');
         }
 
-        professional.isActive = false;
-        professional.save();
+        patient.isActive = false;
+        patient.save();
     }
 }
