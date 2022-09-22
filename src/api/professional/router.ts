@@ -69,7 +69,7 @@ const professionalRoutes = () => {
 
     /**
      * @swagger
-     * /api/v1/professionl/{id}:
+     * /api/v1/professional/{id}:
      *   patch:
      *     summary: Update professional
      *     description: Update professional.
@@ -91,7 +91,7 @@ const professionalRoutes = () => {
 
     /**
      * @swagger
-     * /api/v1/professionl/{id}:
+     * /api/v1/professional/{id}:
      *   delete:
      *     summary: Delete professional
      *     description: Deactivate a professional.

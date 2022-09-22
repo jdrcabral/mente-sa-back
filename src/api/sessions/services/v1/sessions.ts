@@ -1,5 +1,6 @@
 import { User } from '../../../users/models';
 import { Session, SessionStatus, SessionType } from '../../models';
+import { NotFoundError } from '../../../../utils/errors';
 
 export interface ISession {
     id?: string;
@@ -16,13 +17,9 @@ export interface ISession {
 export class SessionService {
 
     public static async create(sessionData: ISession): Promise<Session> {
-        // const { contacts, ...userOnlyData } = sessionData;
-       
         const session = Session.create(sessionData);
         await session.save()
-        // const contactsList = await Promise.all(await ContactService.createList(contacts, user));
 
-        // user.contacts = contactsList;
         return session;
     }
 
@@ -31,7 +28,7 @@ export class SessionService {
             return await Session.find();
         }
 
-        return await Session.find(filter);
+        return await Session.findBy(filter);
     }
 
     public static async listByPatient(patient: User): Promise<Session[]> {
@@ -46,5 +43,31 @@ export class SessionService {
         const session: Session|null = await Session.findOneBy({ id });
 
         return session;
+    }
+
+    public static async update(id: string, update_data: object) {
+
+        const professional = await this.findById(id);
+        
+        if (!professional) {
+            throw new NotFoundError('Professional not found!');
+        }
+        
+        const updated = await Session.update(id, update_data);
+
+        await professional.reload()
+        return professional;
+    }
+
+
+    public static async destroy(id: string) {
+        const session = await this.findById(id);
+
+        if (!session) {
+            throw new NotFoundError('Professional not found!');
+        }
+
+        session.isActive = false;
+        session.save();
     }
 }

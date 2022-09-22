@@ -1,7 +1,8 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import { SessionService } from './services/v1';
-import { User, UserRole } from '../users/models';
+import { Professional } from '../professional/models';
 import { Session } from './models';
+import { Patient } from '../patient/models';
 
 export class SessionController {
 
@@ -12,22 +13,9 @@ export class SessionController {
     }
 
     static async list(request: Request, response: Response) {
-        const user: User | undefined = request.user as User | undefined;
+        const query = request.query;
 
-        if (!user) {
-            return response.status(500).send({ error: 'User not defined' });
-        }
-
-        let sessions: Session[];
-
-        if (user.role == UserRole.PATIENT) {
-            sessions = await SessionService.listByPatient(user);
-        } else if (user.role == UserRole.PROFESSIONAL) {
-            sessions = await SessionService.listByProfessional(user);
-        } else {
-            sessions = await SessionService.list();
-        }
-
+        const sessions = await SessionService.list(query);
         response.status(200).send(sessions);
     }
 
@@ -43,21 +31,20 @@ export class SessionController {
         response.status(200).send(session);
     }
 
-    static partialUpdate(request: Request, response: Response) {
-        response.status(200).send({ update: 'Ok' });
-        
+    static async partialUpdate(request: Request, response: Response) {
+        const { sessionId } = request.params;
+        const session = await SessionService.update(sessionId, request.body);
+        response.status(200).send(session);
     }
 
-    static async delete(request: Request, response: Response) {
+    static async delete(request: Request, response: Response, next: NextFunction) {
         const { sessionId } = request.params;
 
-        const session = await SessionService.findById(sessionId);
-
-        if (!session) {
-            return response.status(404).send({ error: 'Session not found!' });
+        try {
+            await SessionService.destroy(sessionId);
+        } catch (error) {
+            next(error);
         }
-
-        session.remove();
-        response.sendStatus(204);
+        response.status(204).send({ deleted: 'Ok' });
     }
 }

@@ -12,7 +12,7 @@ const configureRoutes =  (app: Express) => {
 
     app.use('/api/v1/auth', AuthenticationRouter());
     app.use('/api/v1/users', UserRouter());
-    app.use('/api/v1/sessions/', SessionRouter());
+    app.use('/api/v1/sessions', SessionRouter());
     app.use('/api/v1/patient', PatientRouter());
     app.use('/api/v1/professional', ProfessionalRouter());
     app.use('/api/v1/resource', resourcesRoutes());
