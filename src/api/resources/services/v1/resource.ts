@@ -3,7 +3,7 @@ import { Resource } from '../../models';
 
 export interface IResource {
   title: string;
-  category: string;
+  category: number;
   description: string;
   professionalId: string;
 }
