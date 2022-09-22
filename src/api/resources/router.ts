@@ -32,18 +32,38 @@ const resourcesRoutes = () => {
   router.get('', ResourceController.list);
       /**
      * @swagger
-     * /api/v1/resource/?professionalId={id}:
+     * /api/v1/resource:
      *   get:
      *     summary: List active resources
      *     description: List resources of a Professional.
      *     tags: [Resource]
      *     parameters:
-     *       - in: path
+     *       - in: query
      *         name: professionalId
      *         required: true
-     *         description: Professional's ID who is creating the resource
+     *         description: Professional's ID who created the resource
      *         schema:
-     *           type: string    
+     *           type: string
+     *     responses:
+     *       200:
+     *         description: Success
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 type: object
+     *                 properties:
+     *                   id:
+     *                     type: string
+     *                   title:
+     *                     type: string
+     *                   category:
+     *                     type: number
+     *                   isActive:
+     *                     type: boolean
+     *                   professionalId:
+     *                     type: string
     */
 
   router.post('', ResourceController.create);
@@ -59,6 +79,16 @@ const resourcesRoutes = () => {
      *          application/json:
      *            schema:
      *              $ref: '#/components/schemas/Resource'
+     *     responses:
+     *       201:
+     *         description: Created
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Resource'
+     *       500:
+     *         description: Error
+     *         
     */
 
   router.put('/:resourceId', ResourceController.update);
@@ -81,6 +111,16 @@ const resourcesRoutes = () => {
      *         description: String ID of resource that will be updated.
      *         schema:
      *           type: string
+     *     responses:
+     *       200:
+     *          description: Success
+     *          content:
+     *            application/json:
+     *              schema:
+     *                $ref: '#/components/schemas/Resource'
+     *       500:
+     *          description: Error
+     *  
     */
 
   router.delete('/:resourceId', ResourceController.delete);
@@ -91,11 +131,6 @@ const resourcesRoutes = () => {
      *     summary: Delete resource
      *     description: Deactivate a resource.
      *     tags: [Resource]
-     *     requestBody:
-     *        content:
-     *          application/json:
-     *            schema:
-     *              $ref: '#/components/schemas/Resource'
      *     parameters:
      *       - in: path
      *         name: id
@@ -103,6 +138,11 @@ const resourcesRoutes = () => {
      *         description: String ID of the resource that will be deactivated.
      *         schema:
      *           type: string
+     *     responses:
+     *        204:
+     *          description: No Content
+     *        500:
+     *          description: Error
     */
 
   return router;

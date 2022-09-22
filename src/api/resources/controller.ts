@@ -25,9 +25,7 @@ export class ResourceController {
 
   static async update(request: Request, response: Response): Promise<Response>{
     const { resourceId } = request.params;
-    console.log(resourceId);
     const updateData = request.body;
-    console.log(updateData);
 
     const resource = await ResourceService.update(resourceId, updateData);
     
