@@ -32,18 +32,25 @@ const resourcesRoutes = () => {
   router.get('', ResourceController.list);
       /**
      * @swagger
-     * /api/v1/resource/?professionalId={id}:
+     * /api/v1/resource:
      *   get:
      *     summary: List active resources
      *     description: List resources of a Professional.
      *     tags: [Resource]
      *     parameters:
-     *       - in: path
+     *       - in: query
      *         name: professionalId
      *         required: true
-     *         description: Professional's ID who is creating the resource
+     *         description: Professional's ID who created the resource
      *         schema:
-     *           type: string    
+     *           type: string
+     *     responses:
+     *       200:
+     *         description: Success
+     *         content:
+     *           application/json:
+     *             schema:
+     *              $ref: '#/components/schemas/Resource'
     */
 
   router.post('', ResourceController.create);
