@@ -28,7 +28,8 @@ export class SessionService {
             return await Session.find();
         }
 
-        return await Session.findBy(filter);
+        const query = { isActive: true, ...filter};
+        return await Session.findBy(query);
     }
 
     public static async listByPatient(patient: User): Promise<Session[]> {
