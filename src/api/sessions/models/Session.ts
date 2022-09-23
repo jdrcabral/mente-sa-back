@@ -51,4 +51,10 @@ export class Session extends BaseEntity {
 
     @UpdateDateColumn()
     updatedAt!: Date;
+
+    @Column({
+        type: 'bool',
+        default: true,
+    })
+    isActive!: Boolean; 
 }
