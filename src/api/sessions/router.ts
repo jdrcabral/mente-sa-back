@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { SessionController} from './controller';
 
 import { authenticate } from '../../utils/middlewares/authenticate';
+import { validateCreate, validateFilter} from './middlewares/validation';
+import { verifyBody, verifyQuery } from '../../utils/middlewares/validation';
 const router = Router();
 
 const sessionRoutes = () => {
@@ -23,8 +25,8 @@ const sessionRoutes = () => {
      *           example: de6b3e94-2dec-4580-b7b5-94abf889844d
      *         scheduledDate:
      *           type: date
-     *           description: Date of the session
-     *           example: 2022-09-30T20:00:00
+     *           description: Date of the session, no padrao ISO 8601
+     *           example: 2022-09-30T20:00:00Z
      *         status:
      *           type: number
      *           description: PENDING - 0, CANCELED - 1, CONFIRMED - 2,
@@ -55,7 +57,7 @@ const sessionRoutes = () => {
      *     description: List sessions.
      *     tags: [Session]
     */    
-    router.get('', SessionController.list);
+    router.get('', verifyQuery(validateFilter()), SessionController.list);
 
     /**
      * @swagger
@@ -70,7 +72,7 @@ const sessionRoutes = () => {
      *            schema:
      *              $ref: '#/components/schemas/Session'
     */
-    router.post('', SessionController.create);
+    router.post('', validateCreate(), verifyBody, SessionController.create);
     
     /**
      * @swagger
